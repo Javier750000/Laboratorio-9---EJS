@@ -1,0 +1,38 @@
+</body>
+</html>
+
+<script type="text/javascript">
+
+$(".submit").on("click", function(e)
+{
+  e.preventDefault();
+  
+  let reservacion=
+  {
+    identificacion: $("#reserve-unique-id").val().trim(),
+    nombre: $("#reserve-name").val().trim(),
+    correo: $("#reserve-email").val().trim(),
+    telefono: $("#reserve-phone").val().trim()
+  };
+
+  $.post("/api/tables", reservacion, function()
+    {
+      $("#reserve-unique-id").val("");
+      $("#reserve-name").val("");
+      $("#reserve-email").val("");
+      $("#reserve-phone").val("");
+    });
+});
+
+function DespejarMesas()
+{
+  $.ajax({url: "/api/clear", method: "POST"})
+    .then(function()
+    {
+      $("#tableList").empty();
+      $("#waitList").empty();
+    });
+}
+
+$("#clear").on("click", DespejarMesas);
+</script>
